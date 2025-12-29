@@ -221,7 +221,7 @@ See the `LICENSE` file for details.
 
 ## Author
 
-**Amr Ibrahim Amer**  
+**Amr Amer**  
 Medical Imaging & Deep Learning Research – 2024
 
 ---
