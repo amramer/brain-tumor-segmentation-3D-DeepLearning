@@ -76,7 +76,7 @@ This follows the BraTS standard labeling convention (IEEE TMI).
 ## Model Architecture
 
 This project uses a **3D SegResNet** backbone for volumetric glioma segmentation, following the architecture introduced in  
-**"3D MRI Brain Tumor Segmentation Using Autoencoder Regularization"** [original SegResNet paper, included in this repo for reference] (docs/paper.pdf).
+**"3D MRI Brain Tumor Segmentation Using Autoencoder Regularization"** [original SegResNet paper, included in this repo for reference](docs/paper.pdf).
 
 SegResNet is a **residual encoder–decoder** optimized for 3D medical imaging, enabling multi-scale feature extraction across MRI modalities and stable training on heterogeneous clinical data.
 
