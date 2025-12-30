@@ -253,6 +253,7 @@ FLAIR shows the **big picture**, T2 clarifies the **core**, and T1Gd exposes the
 ├── checkpoints/                           # Model weights (ignored in version control)
 ├── assets/                                # Images, GIFs, videos for README
 ├── dataset/                               # Local MRI dataset (add to .gitignore)
+├── docs/                                  # segresnet original paper and project report
 ├── requirements.txt
 ├── LICENSE
 └── README.md
