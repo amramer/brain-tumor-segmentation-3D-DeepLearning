@@ -3,13 +3,13 @@
 <tr>
 <td width="100%" align="center">
   <img src="assets/visualize-dec-dataset.gif" width="100%"><br>
-  <sub><b>W&B Visualization:</b> Multimodal MRI slices with corresponding segmentation masks for dataset validation.</sub>
+  <sub><b>W&B Visualization:</b> Multimodal MRI slices with corresponding tumor regions segmentation mask for dataset validation.</sub>
 </td>
 </tr>
 <tr>
 <td width="100%" align="center">
   <img src="assets/brats_brain-tumor-regions.png" width="90%"><br>
-  <sub><b>Tumor Subregion Labels:</b> BraTS-compliant annotation of glioma components for multi-label segmentation.</sub>
+  <sub><b>Brats Tumor regions:</b> BraTS-compliant annotation of tumor regions in different modalities.</sub>
 </td>
 </tr>
 </table>
