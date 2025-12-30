@@ -128,12 +128,11 @@ $$
 
 | Class             | Dice Score (Val) |
 |-------------------|------------------|
-| Tumor Core (TC)   | TBD              |
-| Whole Tumor (WT)  | TBD              |
-| Enhancing Tumor   | TBD              |
-| **Mean Dice**     | TBD              |
+| Tumor Core (TC)   | 0.82             |
+| Whole Tumor (WT)  | 0.9              |
+| Enhancing Tumor   | 0.59             |
+| **Mean Dice**     | 0.78             |
 
-> Update when training is finalized.
 
 ---
 
