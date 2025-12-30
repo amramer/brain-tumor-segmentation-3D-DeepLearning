@@ -204,19 +204,22 @@ This format allows rapid verification of:
 The following examples are taken directly from model predictions and demonstrate how each region is most interpretable on its corresponding modality.
 
 **Whole Tumor (WT) on FLAIR**
-```
-![WT-FLAIR](assets/wt_flair.gif)
-```
+
+
+![WT-FLAIR](assets/flair-wt.gif)
+
 
 **Tumor Core (TC) on T2**
-```
-![TC-T2](assets/tc_t2.gif)
-```
+
+
+![TC-T2](assets/t2-tc.gif)
+
 
 **Enhancing Tumor (ET) on T1Gd**
-```
-![ET-T1Gd](assets/et_t1gd.gif)
-```
+
+
+![ET-T1Gd](assets/t1gd-et.gif)
+
 
 *These visualizations confirm that the model’s behavior aligns with conventional MRI interpretation in glioma imaging.*
 
