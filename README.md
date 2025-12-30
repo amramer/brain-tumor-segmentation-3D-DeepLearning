@@ -290,9 +290,9 @@ This project logs:
 - Slice-by-slice overlay visualizations
 - Full prediction comparison tables
 
-Example workspace link:
+W&B Project workspace link:
 ```
-https://wandb.ai/<your-username>/3D-brain-tumor-segmentation
+https://wandb.ai/amribrahim-amer-2024/3D-brain-tumor-segmentation
 ```
 
 ---
