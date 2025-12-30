@@ -134,6 +134,30 @@ $$
 | **Mean Dice**     | 0.78             |
 
 
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/mean-dice.png" width="100%"><br>
+      <sub><b>Mean Dice Score:</b> Overall segmentation performance across all tumor regions (WT + TC + ET).</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/dice-wt.png" width="100%"><br>
+      <sub><b>Whole Tumor (WT):</b> Dice progression for full tumor + edema across epochs.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/dice-tc.png" width="100%"><br>
+      <sub><b>Tumor Core (TC):</b> Dice progression for necrotic/solid tumor core segmentation.</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/dice-et.png" width="100%"><br>
+      <sub><b>Enhancing Tumor (ET):</b> Dice progression for contrast-enhancing active tumor tissue.</sub>
+    </td>
+  </tr>
+</table>
+
+
 ---
 
 ## Interpreting Model Predictions
