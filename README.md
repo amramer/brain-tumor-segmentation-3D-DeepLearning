@@ -1,3 +1,21 @@
+
+<table>
+<tr>
+<td width="100%" align="center">
+  <img src="assets/visualize-dec-dataset.gif" width="100%"><br>
+  <sub><b>W&B Visualization:</b> Multimodal MRI slices with corresponding segmentation masks for dataset validation.</sub>
+</td>
+</tr>
+<tr>
+<td width="100%" align="center">
+  <img src="assets/brats_brain-tumor-regions.png" width="90%"><br>
+  <sub><b>Tumor Subregion Labels:</b> BraTS-compliant annotation of glioma components for multi-label segmentation.</sub>
+</td>
+</tr>
+</table>
+
+
+
 # 3D Brain Tumor Segmentation from Multimodal MRI
 
 This repository presents an end-to-end workflow for **multi-label brain tumor segmentation** from 3D multimodal MRI scans. The project targets segmentation of **glioma subregions** (tumor core, whole tumor, enhancing tumor) using a **3D SegResNet** model, trained with **Dice loss** and evaluated using **Mean Dice metrics**. The pipeline is implemented with **PyTorch** and **MONAI**, and experiment tracking, visualization, and artifact management are integrated through **Weights & Biases (W&B)**.
@@ -57,23 +75,28 @@ This follows the BraTS standard labeling convention (IEEE TMI).
 
 ## Model Architecture
 
-**Network:** 3D SegResNet
+This project uses a **3D SegResNet** backbone for volumetric glioma segmentation, following the architecture introduced in  
+**"3D MRI Brain Tumor Segmentation Using Autoencoder Regularization"** [original SegResNet paper, included in this repo for reference] (docs/paper.pdf).
 
+SegResNet is a **residual encoder–decoder** optimized for 3D medical imaging, enabling multi-scale feature extraction across MRI modalities and stable training on heterogeneous clinical data.
+
+<p align="center">
+  <img src="assets/segresnet-model.png" width="100%">
+</p>
+
+
+**PyTorch/MONAI implementation:**
 ```python
-SegResNet(
+from monai.networks.nets import SegResNet
+model = SegResNet(
+    in_channels=4,   # FLAIR, T1, T1Gd, T2
+    out_channels=3,  # TC, WT, ET (BraTS multi-label targets)
+    init_filters=16,
     blocks_down=[1, 2, 2, 4],
     blocks_up=[1, 1, 1],
-    init_filters=16,
-    in_channels=4,
-    out_channels=3,
     dropout_prob=0.2,
-)
+).to(device)
 ```
-
-**Rationale**
-- Residual encoder-decoder structure
-- Effective multimodal feature extraction
-- Optimized for 3D volumetric segmentation
 
 ---
 
@@ -91,9 +114,11 @@ SegResNet(
 | AMP | Enabled (Mixed Precision) |
 
 **Dice Loss**
-\[
-L_{dice} = \frac{2 \sum p_{true} p_{pred}}{\sum p_{true}^2 + \sum p_{pred}^2 + \epsilon}
-\]
+
+$$
+L_{dice} = \frac{2 \sum p_{true} \cdot p_{pred}}{\sum p_{true}^2 + \sum p_{pred}^2 + \epsilon}
+$$
+
 
 ---
 
@@ -112,27 +137,111 @@ L_{dice} = \frac{2 \sum p_{true} p_{pred}}{\sum p_{true}^2 + \sum p_{pred}^2 + \
 
 ---
 
-## Visual Examples
+## Interpreting Model Predictions
 
-Place your images/GIFs in the `assets/` directory and update paths below.
+Each MRI scan is processed slice-by-slice across **four modalities** (FLAIR, T1, T1Gd, T2).  
+For every slice, the model predicts **three clinically relevant tumor subregions**:
 
-**Model Output Comparison**
+- **WT – Whole Tumor:** full lesion extent including surrounding edema
+- **TC – Tumor Core:** central necrotic/solid region within the mass
+- **ET – Enhancing Tumor:** biologically active contrast-enhancing tissue
+
+Weights & Biases logs these predictions in a table using the format:
+
 ```
-![Overlay Example](assets/overlay_example.png)
+Image-Channel-X / Region  
+e.g., Image-Channel-0/Whole-Tumor → WT overlay on FLAIR
 ```
 
-**Volumetric MRI Slice**
-```
-![MRI Slice](assets/mri_slice_01.png)
-```
+This does **not** indicate 12 classes.  
+It is **3 regions visualized across 4 modalities** to check if predictions line up with radiological expectations.
 
-**Inference Video Demo**
+---
+
+### Region–Modality Pairing (Expected Visibility)
+
+| Tumor Region | Best Viewed On | Why This Modality? |
+|--------------|----------------|---------------------|
+| **WT – Whole Tumor** | **FLAIR** | Edema and lesion spread appear brightest; clearest boundary of disease extent |
+| **TC – Tumor Core** | **T2** | Necrosis and internal structure are well defined by fluid contrast |
+| **ET – Enhancing Tumor** | **T1Gd** (contrast) | Active regions uptake contrast, indicating BBB disruption and tumor activity |
+| *(reference modality)* | **T1** | Baseline anatomy; complements other sequences |
+
 ```
-https://github.com/<username>/<repo>/assets/inference_demo.mp4
+WT → FLAIR   (extent)
+TC → T2      (core structure)
+ET → T1Gd    (active tumor)
+T1 → anatomical context
 ```
 
 ---
 
+## Prediction Table (Slice-by-Slice Evaluation)
+
+Predictions are logged for each slice to visually assess segmentation performance across modalities:
+
+```
+![Prediction Table](assets/wandb_prediction_table.png)
+```
+
+Each column corresponds to a region overlay on a specific modality, for example:
+
+```
+Image-Channel-0/Whole-Tumor  → WT on FLAIR
+Image-Channel-2/Enhancing-Tumor → ET on T1Gd
+Image-Channel-3/Tumor-Core → TC on T2
+```
+
+This format allows rapid verification of:
+- Region visibility per modality  
+- Slice-by-slice consistency  
+- Potential false positives / missed boundaries  
+
+---
+
+## Visual Examples (Region-by-Modality)
+
+The following examples are taken directly from model predictions and demonstrate how each region is most interpretable on its corresponding modality.
+
+**Whole Tumor (WT) on FLAIR**
+```
+![WT-FLAIR](assets/wt_flair.gif)
+```
+
+**Tumor Core (TC) on T2**
+```
+![TC-T2](assets/tc_t2.gif)
+```
+
+**Enhancing Tumor (ET) on T1Gd**
+```
+![ET-T1Gd](assets/et_t1gd.gif)
+```
+
+*These visualizations confirm that the model’s behavior aligns with conventional MRI interpretation in glioma imaging.*
+
+---
+
+## Compact Visual Mental Model
+
+The tumor behaves like layered structures, each best revealed by a specific MRI sequence:
+
+```
+                Whole Tumor (WT)
+           [ FLAIR – edema & total extent ]
+        ┌────────────────────────────────────┐
+        │           Tumor Core (TC)          │
+        │    [ T2 – necrotic / solid mass ]  │
+        │       ┌────────────────────────┐   │
+        │       │   Enhancing Tumor      │   │
+        │       │ [ T1Gd – active area ] │   │
+        │       └────────────────────────┘   │
+        └────────────────────────────────────┘
+```
+
+
+**In one sentence:**  
+FLAIR shows the **big picture**, T2 clarifies the **core**, and T1Gd exposes the **active tumor**.
 ## Code Structure
 
 ```
