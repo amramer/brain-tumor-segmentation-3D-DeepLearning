@@ -180,9 +180,9 @@ T1 → anatomical context
 
 Predictions are logged for each slice to visually assess segmentation performance across modalities:
 
-```
-![Prediction Table](assets/wandb_prediction_table.png)
-```
+
+![Prediction Table](assets/table-of-predictions.png)
+
 
 Each column corresponds to a region overlay on a specific modality, for example:
 
