@@ -18,6 +18,8 @@
 
 # 3D Brain Tumor Segmentation from Multimodal MRI
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/amramer/brain-tumor-segmentation-3D-DeepLearning/blob/main/3D_Brain_tumor_segmentation.ipynb)
+
 This repository presents an end-to-end workflow for **multi-label brain tumor segmentation** from 3D multimodal MRI scans. The project targets segmentation of **glioma subregions** (tumor core, whole tumor, enhancing tumor) using a **3D SegResNet** model, trained with **Dice loss** and evaluated using **Mean Dice metrics**. The pipeline is implemented with **PyTorch** and **MONAI**, and experiment tracking, visualization, and artifact management are integrated through **Weights & Biases (W&B)**.
 
 ---
