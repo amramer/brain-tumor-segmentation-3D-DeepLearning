@@ -292,8 +292,10 @@ pip install -r requirements.txt
 ```
 
 ### 2. Run the Notebook
-```
+
 Open and execute:
+```
+
 3D_Brain_tumor_segmentation.ipynb
 ```
 
