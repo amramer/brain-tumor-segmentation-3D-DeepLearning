@@ -284,23 +284,17 @@ FLAIR shows the **big picture**, T2 clarifies the **core**, and T1Gd exposes the
 
 ---
 
-## Usage
+## 🚀 How to Run
 
 ### 1. Install Dependencies
 ```
 pip install -r requirements.txt
 ```
 
-### 2. Run Training (Notebook Execution)
+### 2. Run code (Notebook Execution)
 ```
 Open and execute:
 3D_Brain_tumor_segmentation.ipynb
-```
-
-### 3. Load Best Model for Inference
-```python
-model.load_state_dict(torch.load("checkpoints/model.pth"))
-model.eval()
 ```
 
 ---
